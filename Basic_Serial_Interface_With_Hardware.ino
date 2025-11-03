@@ -1,6 +1,13 @@
 const int LEDpins[4] = {2,3,4,5};
 const int buttonPins[4] = {10,11,12,13}; 
-bool ledState[4] = {LOW,LOW,LOW,LOW}; 
+bool ledState[4] = {LOW,LOW,LOW,LOW};
+
+const int LED_STRING_NUM_POS = 7; //position in the array to find LED number
+const int ALL_LED_STRING_NUM_POS = 9;
+const int BUTTON_STRING_NUM_POS = 10; //position in the array to find BUTTON number
+const int F_ASCII = 70;
+const int N_ASCII = 78;
+const int NUM_OFFSET = 49; //ascii offset for numbers 1-4
 
 void setup() 
 {
@@ -21,24 +28,24 @@ void loop()
     //checks the command
     if(command.startsWith("SET LED"))
     {
-      int ledNum = command[7];
-      setLED(ledNum-49);
+      int ledNum = command[LED_STRING_NUM_POS];
+      setLED(ledNum-NUM_OFFSET);
     }
     else if (command.startsWith("SET ALL"))
     {
-      if (command[9] == 78)
+      if (command[ALL_LED_STRING_NUM_POS] == N_ASCII)
       {
         setAllON();
       }
-      else if (command[9] == 70)
+      else if (command[ALL_LED_STRING_NUM_POS] == F_ASCII)
       {
         setAllOFF();
       }
     } 
     else if (command.startsWith("GET BUTTON"))
     {
-      int butNum = command[10];
-      getButton(butNum-49);
+      int butNum = command[BUTTON_STRING_NUM_POS];
+      getButton(butNum-NUM_OFFSET);
     }
     else if (command == "GET ALL")
       getALL();
