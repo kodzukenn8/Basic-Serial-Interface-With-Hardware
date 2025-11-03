@@ -26,12 +26,12 @@ void loop()
   {
     String command = Serial.readStringUntil('\n');
     //checks the command
-    if(command.startsWith("SET LED"))
+    if(command.startsWith("SET LED")) //command for toggling individua LEDs (SET LED[num])
     {
       int ledNum = command[LED_STRING_NUM_POS];
       setLED(ledNum-NUM_OFFSET);
     }
-    else if (command.startsWith("SET ALL"))
+    else if (command.startsWith("SET ALL")) //command for setting all LEDs (SET ALL ON/OFF)
     {
       if (command[ALL_LED_STRING_NUM_POS] == N_ASCII)
       {
@@ -42,12 +42,12 @@ void loop()
         setAllOFF();
       }
     } 
-    else if (command.startsWith("GET BUTTON"))
+    else if (command.startsWith("GET BUTTON")) //command for getting state individual buttons (SET BUTTON[num])
     {
       int butNum = command[BUTTON_STRING_NUM_POS];
       getButton(butNum-NUM_OFFSET);
     }
-    else if (command == "GET ALL")
+    else if (command == "GET ALL") //command for getting states of all buttons
       getALL();
   }
 
@@ -68,7 +68,7 @@ void setLED(int pin)
   }
 }
 
-//function to set all LEDs
+//functions to set all LEDs
 void setAllON()
 {
   for (int n = 0; n <= 3; n++)
@@ -109,16 +109,6 @@ void getALL()
 {
   for (int i = 0; i <= 3; i++)
   {
-    int state = digitalRead(buttonPins[i]);
-    Serial.print("BUTTON");
-    Serial.print(i+1);
-    Serial.print(":");
-
-    if (state == 1)
-      Serial.print(" Released");
-    else if (state == 0)
-      Serial.print(" Pressed");
-
-    Serial.print('\n');
+    getButton(i);
   }
 }
